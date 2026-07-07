@@ -3,7 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/todo_service.dart';
 
 class TodoList extends StatefulWidget {
-  const TodoList({super.key});
+  const TodoList({
+    super.key,
+    required this.isDarkMode,
+    required this.onToggleTheme,
+  });
+
+  final bool isDarkMode;
+  final VoidCallback onToggleTheme;
 
   @override
   State<TodoList> createState() => _TodoListState();
@@ -106,6 +113,11 @@ class _TodoListState extends State<TodoList> {
       appBar: AppBar(
         title: const Text("Firestore Todo App"),
         actions: [
+          // Sun/moon icon toggles theme; preference is saved via SharedPreferences.
+          IconButton(
+            icon: Icon(widget.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+            onPressed: widget.onToggleTheme,
+          ),
           IconButton(
             icon: const Icon(Icons.delete_sweep),
             onPressed: _deleteCompletedTodos,
